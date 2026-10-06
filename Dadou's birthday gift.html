@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Dadou! ❤️</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Great+Vibes&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #fff0f5 0%, #ffe4e1 40%, #fcd5ce 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #4a2e35;
+        }
+
+        .font-serif-title {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .font-handwriting {
+            font-family: 'Great Vibes', cursive;
+        }
+
+        .font-script {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        /* Floating Hearts Animation Background */
+        .bg-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .heart-particle {
+            position: absolute;
+            color: rgba(244, 114, 182, 0.35);
+            animation: floatUp 12s linear infinite;
+            font-size: 1.2rem;
+            bottom: -50px;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(0.8);
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.8;
+            }
+            85% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-110vh) rotate(360deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* Custom Glassmorphism */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 10px 30px -5px rgba(225, 112, 128, 0.15), 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .glass-card-hover {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-card-hover:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 35px -10px rgba(225, 112, 128, 0.25);
+            background: rgba(255, 255, 255, 0.88);
+        }
+
+        /* Glow effects */
+        .glow-text {
+            text-shadow: 0 0 15px rgba(244, 114, 182, 0.4), 0 0 30px rgba(251, 113, 133, 0.2);
+        }
+
+        .glow-box {
+            box-shadow: 0 0 25px rgba(244, 114, 182, 0.3);
+        }
+
+        /* 3D Flip Card Styles for Love Notes */
+        .flip-card {
+            background-color: transparent;
+            perspective: 1000px;
+            height: 240px;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 1.25rem;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flip-card-front {
+            background: rgba(255, 255, 255, 0.82);
+            border: 1.5px solid rgba(251, 207, 232, 0.8);
+            box-shadow: 0 8px 20px rgba(244, 114, 182, 0.12);
+        }
+
+        .flip-card-back {
+            background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
+            border: 1.5px solid rgba(244, 114, 182, 0.4);
+            transform: rotateY(180deg);
+            box-shadow: 0 8px 20px rgba(244, 114, 182, 0.2);
+        }
+
+        /* Infinite Pulse Animation */
+        @keyframes pulseGlow {
+            0%, 100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 8px rgba(244, 114, 182, 0.5));
+            }
+            50% {
+                transform: scale(1.06);
+                filter: drop-shadow(0 0 18px rgba(244, 114, 182, 0.8));
+            }
+        }
+
+        .infinity-pulse {
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+
+        /* Gift Box Pulse */
+        @keyframes giftBounce {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-12px) scale(1.03);
+            }
+        }
+
+        .gift-bounce {
+            animation: giftBounce 2.5s ease-in-out infinite;
+        }
+
+        /* Shimmer effect for ribbon */
+        .shimmer {
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 2.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+    </style>
+</head>
+<body class="relative min-h-screen pb-16">
+
+    <!-- Animated Background Floating Hearts -->
+    <div id="heartsContainer" class="bg-hearts"></div>
+
+    <!-- MAIN CONTAINER -->
+    <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 space-y-16">
+
+        <!-- HERO / GREETING SECTION -->
+        <header class="text-center pt-8 md:pt-14 space-y-4">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-rose-100/80 border border-rose-200 text-rose-600 text-sm font-medium mb-2 shadow-sm animate-fade-in">
+                <i class="fa-solid fa-sparkles text-rose-400"></i>
+                <span>Today is all about you</span>
+                <i class="fa-solid fa-sparkles text-rose-400"></i>
+            </div>
+            
+            <h1 class="text-5xl sm:text-6xl md:text-7xl font-handwriting font-bold text-rose-600 glow-text leading-tight">
+                Happy Birthday, Dadou!
+            </h1>
+            
+            <p class="font-serif-title text-xl sm:text-2xl text-rose-800/90 italic max-w-2xl mx-auto font-light leading-relaxed">
+                "In a world full of stars, you are my brightest light and my sweetest blessing."
+            </p>
+
+            <div class="pt-2 flex justify-center items-center gap-3">
+                <div class="h-px w-16 bg-gradient-to-r from-transparent to-rose-300"></div>
+                <i class="fa-solid fa-heart text-rose-400 animate-pulse text-lg"></i>
+                <div class="h-px w-16 bg-gradient-to-l from-transparent to-rose-300"></div>
+            </div>
+        </header>
+
+
+        <!-- TOGETHER TIMER / INFINITY SYMBOL SECTION -->
+        <section class="max-w-3xl mx-auto">
+            <div class="glass-card rounded-3xl p-8 sm:p-10 text-center relative overflow-hidden">
+                <!-- Decorative background shimmer -->
+                <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-pink-200/40 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="absolute -left-10 -top-10 w-40 h-40 bg-rose-200/40 rounded-full blur-2xl pointer-events-none"></div>
+
+                <h2 class="text-xs uppercase tracking-widest text-rose-500 font-semibold mb-3">Our Eternal Bond</h2>
+                
+                <!-- Large Elegant Infinity Symbol -->
+                <div class="my-4 flex flex-col items-center justify-center">
+                    <span class="infinity-pulse text-7xl sm:text-8xl md:text-9xl font-serif text-transparent bg-clip-text bg-gradient-to-r from-rose-500 via-pink-500 to-rose-600 leading-none select-none">
+                        &infin;
+                    </span>
+                    <p class="font-script text-3xl sm:text-4xl text-rose-700 mt-2">Together Forever</p>
+                </div>
+
+                <p class="text-rose-900/80 font-serif-title text-lg max-w-lg mx-auto italic mt-4 leading-relaxed">
+                    "My love for you isn't measured in days, months, or years, but in every second my heart beats alongside yours."
+                </p>
+
+                <!-- Heartbeat counter row -->
+                <div class="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-rose-200/60 max-w-md mx-auto">
+                    <div class="p-3 rounded-2xl bg-white/60">
+                        <span class="block text-2xl font-bold text-rose-600 font-serif-title">&infin;</span>
+                        <span class="text-xs text-rose-400 font-medium uppercase">Smiles Shared</span>
+                    </div>
+                    <div class="p-3 rounded-2xl bg-white/60">
+                        <span class="block text-2xl font-bold text-rose-600 font-serif-title">&infin;</span>
+                        <span class="text-xs text-rose-400 font-medium uppercase">Memories Built</span>
+                    </div>
+                    <div class="p-3 rounded-2xl bg-white/60">
+                        <span class="block text-2xl font-bold text-rose-600 font-serif-title">&infin;</span>
+                        <span class="text-xs text-rose-400 font-medium uppercase">Love Always</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- INTERACTIVE LOVE NOTES SECTION -->
+        <section class="space-y-6">
+            <div class="text-center space-y-2">
+                <h2 class="text-3xl sm:text-4xl font-serif-title font-bold text-rose-900">
+                    Reasons Why I Love You
+                </h2>
+                <p class="text-rose-600/80 text-sm font-medium">
+                    <i class="fa-solid fa-hand-pointer mr-1"></i> Tap any note card to reveal a secret love reason!
+                </p>
+            </div>
+
+            <!-- Notes Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-4" id="notesGrid">
+                <!-- Note 1 -->
+                <div class="flip-card" onclick="toggleFlip(this)">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <div class="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center text-rose-500 mb-3 text-xl shadow-sm">
+                                <i class="fa-solid fa-heart"></i>
+                            </div>
+                            <h3 class="font-serif-title font-bold text-lg text-rose-800 mb-1">Reason #1</h3>
+                            <p class="text-xs text-rose-400 uppercase tracking-wider font-semibold">Tap to open note</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <i class="fa-solid fa-quote-left text-rose-300 text-2xl mb-2"></i>
+                            <p class="font-handwriting text-2xl text-rose-800 leading-snug">
+                                Your gorgeous smile lights up my darkest days and instantly brings peace to my heart.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Note 2 -->
+                <div class="flip-card" onclick="toggleFlip(this)">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <div class="w-12 h-12 rounded-full bg-pink-100 flex items-center justify-center text-pink-500 mb-3 text-xl shadow-sm">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            </div>
+                            <h3 class="font-serif-title font-bold text-lg text-rose-800 mb-1">Reason #2</h3>
+                            <p class="text-xs text-rose-400 uppercase tracking-wider font-semibold">Tap to open note</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <i class="fa-solid fa-quote-left text-rose-300 text-2xl mb-2"></i>
+                            <p class="font-handwriting text-2xl text-rose-800 leading-snug">
+                                You make the simplest ordinary moments feel like magical fairytale adventures.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Note 3 -->
+                <div class="flip-card" onclick="toggleFlip(this)">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <div class="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center text-rose-500 mb-3 text-xl shadow-sm">
+                                <i class="fa-solid fa-sun"></i>
+                            </div>
+                            <h3 class="font-serif-title font-bold text-lg text-rose-800 mb-1">Reason #3</h3>
+                            <p class="text-xs text-rose-400 uppercase tracking-wider font-semibold">Tap to open note</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <i class="fa-solid fa-quote-left text-rose-300 text-2xl mb-2"></i>
+                            <p class="font-handwriting text-2xl text-rose-800 leading-snug">
+                                Your kind, compassionate heart inspires me to be a better person every single day.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Note 4 -->
+                <div class="flip-card" onclick="toggleFlip(this)">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <div class="w-12 h-12 rounded-full bg-pink-100 flex items-center justify-center text-pink-500 mb-3 text-xl shadow-sm">
+                                <i class="fa-solid fa-face-smile-beam"></i>
+                            </div>
+                            <h3 class="font-serif-title font-bold text-lg text-rose-800 mb-1">Reason #4</h3>
+                            <p class="text-xs text-rose-400 uppercase tracking-wider font-semibold">Tap to open note</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <i class="fa-solid fa-quote-left text-rose-300 text-2xl mb-2"></i>
+                            <p class="font-handwriting text-2xl text-rose-800 leading-snug">
+                                The way you laugh effortlessly is literally my favorite sound in the whole world.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Note 5 -->
+                <div class="flip-card" onclick="toggleFlip(this)">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <div class="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center text-rose-500 mb-3 text-xl shadow-sm">
+                                <i class="fa-solid fa-shield-heart"></i>
+                            </div>
+                            <h3 class="font-serif-title font-bold text-lg text-rose-800 mb-1">Reason #5</h3>
+                            <p class="text-xs text-rose-400 uppercase tracking-wider font-semibold">Tap to open note</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <i class="fa-solid fa-quote-left text-rose-300 text-2xl mb-2"></i>
+                            <p class="font-handwriting text-2xl text-rose-800 leading-snug">
+                                Because in your warm arms is the only place in the world that feels like home.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Note 6 -->
+                <div class="flip-card" onclick="toggleFlip(this)">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <div class="w-12 h-12 rounded-full bg-pink-100 flex items-center justify-center text-pink-500 mb-3 text-xl shadow-sm">
+                                <i class="fa-solid fa-infinity"></i>
+                            </div>
+                            <h3 class="font-serif-title font-bold text-lg text-rose-800 mb-1">Reason #6</h3>
+                            <p class="text-xs text-rose-400 uppercase tracking-wider font-semibold">Tap to open note</p>
+                        </div>
+                        <div class="flip-card-back">
+                            <i class="fa-solid fa-quote-left text-rose-300 text-2xl mb-2"></i>
+                            <p class="font-handwriting text-2xl text-rose-800 leading-snug">
+                                Simply because you are Dadou—my precious soulmate, my best friend, and my whole universe.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- SPECIAL BIRTHDAY PRESENT SURPRISE SECTION -->
+        <section class="max-w-2xl mx-auto text-center pt-6">
+            <div class="glass-card rounded-3xl p-8 sm:p-12 relative overflow-hidden shadow-xl">
+                
+                <h2 class="text-2xl sm:text-3xl font-serif-title font-bold text-rose-900 mb-2">
+                    A Surprise Prepared for Dadou
+                </h2>
+                <p class="text-rose-600/80 text-sm mb-8 font-medium">
+                    I wrote a secret romantic birthday letter just for you. Click the gift box to open!
+                </p>
+
+                <!-- Interactive Gift Box Button -->
+                <button id="giftBtn" onclick="openSurpriseModal()" class="gift-bounce group relative inline-flex flex-col items-center justify-center p-6 rounded-3xl bg-gradient-to-b from-rose-400 to-pink-500 text-white shadow-2xl hover:scale-105 transition-transform duration-300 focus:outline-none cursor-pointer">
+                    <div class="w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center text-5xl sm:text-6xl text-amber-200">
+                        <i class="fa-solid fa-gift drop-shadow-md"></i>
+                    </div>
+                    <span class="mt-4 px-6 py-2 rounded-full bg-white/20 backdrop-blur-md text-sm font-semibold tracking-wide border border-white/40 group-hover:bg-white group-hover:text-rose-600 transition-colors">
+                        Click to Open Your Present 🎁
+                    </span>
+                </button>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="text-center pt-10 text-rose-500/80 text-sm font-medium">
+            <p class="flex items-center justify-center gap-1">
+                Made with <i class="fa-solid fa-heart text-rose-500 animate-pulse"></i> exclusively for Dadou
+            </p>
+            <p class="text-xs text-rose-400/60 mt-1">Happy Birthday, my love!</p>
+        </footer>
+
+    </div>
+
+    <!-- SECRET LETTER MODAL POP-UP -->
+    <div id="letterModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-rose-950/40 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-500">
+        <div id="letterCard" class="bg-gradient-to-b from-white via-rose-50/50 to-pink-50 rounded-3xl max-w-xl w-full p-6 sm:p-10 shadow-2xl border border-rose-200/80 transform scale-90 transition-transform duration-500 relative max-h-[90vh] overflow-y-auto">
+            
+            <!-- Close Button -->
+            <button onclick="closeSurpriseModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-600 flex items-center justify-center transition-colors">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <!-- Letter Content -->
+            <div class="text-center space-y-6 pt-2">
+                <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-rose-100 text-rose-500 text-2xl shadow-inner">
+                    <i class="fa-solid fa-envelope-open-text"></i>
+                </div>
+
+                <h3 class="font-serif-title text-3xl font-bold text-rose-900">
+                    My Dearest Dadou,
+                </h3>
+
+                <div class="space-y-4 font-serif-title text-rose-800/90 text-left text-base sm:text-lg leading-relaxed italic border-y border-rose-200/80 py-6">
+                    <p>
+                        On this very special day, I want to take a quiet moment to celebrate the wonderful, beautiful, and irreplaceable soul that you are.
+                    </p>
+                    <p>
+                        Ever since you entered my life, you have filled every day with laughter, warmth, and an everlasting sense of happiness. You are my confidante, my biggest supporter, and my sweetest dream come true.
+                    </p>
+                    <p>
+                        As you blow out your birthday candles today, my biggest wish is for your life to be filled with endless joy, peace, success, and all the boundless love you so genuinely deserve.
+                    </p>
+                    <p class="font-handwriting text-3xl sm:text-4xl text-rose-600 font-bold text-center pt-2">
+                        Happy Birthday, my love! ❤️
+                    </p>
+                </div>
+
+                <div class="pt-2 text-center">
+                    <p class="text-xs uppercase tracking-widest text-rose-400 font-semibold mb-1">Forever & Always Yours</p>
+                    <button onclick="triggerMoreConfetti()" class="px-6 py-2.5 rounded-full bg-gradient-to-r from-rose-500 to-pink-500 text-white font-medium text-sm shadow-md hover:shadow-lg hover:opacity-95 transition-all">
+                        <i class="fa-solid fa-sparkles mr-2"></i>Send More Love
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function createFloatingHearts() {
+            const container = document.getElementById('heartsContainer');
+            const heartIcons = ['fa-heart', 'fa-heart', 'fa-sparkles', 'fa-star'];
+            
+            for (let i = 0; i < 25; i++) {
+                const heart = document.createElement('i');
+                const randomIcon = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+                
+                heart.className = `fa-solid ${randomIcon} heart-particle`;
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.animationDuration = `${8 + Math.random() * 8}s`;
+                heart.style.animationDelay = `${Math.random() * 10}s`;
+                heart.style.fontSize = `${0.8 + Math.random() * 1.2}rem`;
+                
+                container.appendChild(heart);
+            }
+        }
+
+        function toggleFlip(cardElement) {
+            cardElement.classList.toggle('flipped');
+            
+            // Subtle burst effect when flipped
+            if (cardElement.classList.contains('flipped') && typeof confetti === 'function') {
+                const rect = cardElement.getBoundingClientRect();
+                const x = (rect.left + rect.width / 2) / window.innerWidth;
+                const y = (rect.top + rect.height / 2) / window.innerHeight;
+                
+                confetti({
+                    particleCount: 15,
+                    spread: 40,
+                    startVelocity: 15,
+                    origin: { x, y },
+                    colors: ['#f472b6', '#fb7185', '#ffe4e6']
+                });
+            }
+        }
+
+        function openSurpriseModal() {
+            const modal = document.getElementById('letterModal');
+            const card = document.getElementById('letterCard');
+            
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.classList.add('opacity-100');
+            
+            card.classList.remove('scale-90');
+            card.classList.add('scale-100');
+
+            // Grand Birthday Confetti Explosion
+            if (typeof confetti === 'function') {
+                // Left confetti burst
+                confetti({
+                    particleCount: 70,
+                    spread: 70,
+                    origin: { x: 0.2, y: 0.5 },
+                    colors: ['#f472b6', '#fb7185', '#fbbf24', '#ffffff']
+                });
+                
+                // Right confetti burst
+                confetti({
+                    particleCount: 70,
+                    spread: 70,
+                    origin: { x: 0.8, y: 0.5 },
+                    colors: ['#f472b6', '#fb7185', '#fbbf24', '#ffffff']
+                });
+            }
+        }
+
+        function closeSurpriseModal() {
+            const modal = document.getElementById('letterModal');
+            const card = document.getElementById('letterCard');
+            
+            modal.classList.remove('opacity-100');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            
+            card.classList.remove('scale-100');
+            card.classList.add('scale-90');
+        }
+
+        function triggerMoreConfetti() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 100,
+                    spread: 100,
+                    origin: { y: 0.6 },
+                    colors: ['#f472b6', '#fb7185', '#f43f5e', '#ffffff']
+                });
+            }
+        }
+
+        // Close modal on background click
+        document.getElementById('letterModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeSurpriseModal();
+            }
+        });
+
+        window.onload = function() {
+            createFloatingHearts();
+        };
+    </script>
+</body>
+</html>
